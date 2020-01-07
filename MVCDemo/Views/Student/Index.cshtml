@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Student>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div id="replyModal" class="modal fade in">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="replyModalContent"></div>
+        </div>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Age</th>
+            <th>##</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.ID</td>
+                <td>@student.Name</td>
+                <td>@student.Age</td>
+                <td><a href="@Url.Action("AddReply","Student", new { studentId= student.ID })" data-modal="addReply" role="button">Reply</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        $("a[data-modal='addReply']").on('click', function (e) {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+
+            $("#replyModalContent").load(this.href, function () {
+                $("#replyModal").modal("show");
+            });
+            return false;
+        });
+
+
+    });
+</script>
